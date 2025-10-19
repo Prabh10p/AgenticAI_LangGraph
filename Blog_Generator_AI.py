@@ -1,3 +1,4 @@
+# Sequential Workflow
 from langgraph.graph import StateGraph, START, END
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from dotenv import load_dotenv
@@ -64,4 +65,7 @@ workflow = graph.compile()
 initial_state = {"title": "Tell me About Machine Learning"}
 result = workflow.invoke(initial_state)
 
+
+print(result["blog"])
+print('-'*100)
 print(result["score"])
