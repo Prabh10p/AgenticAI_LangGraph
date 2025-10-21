@@ -21,7 +21,6 @@ model = ChatHuggingFace(llm=llm)
 class IterState(TypedDict):
     title: str
     post: str
-    topic: str
     evaluation: Literal["approved", "not approved"]
     feedback: str
     iteration: int
@@ -115,10 +114,16 @@ graph.add_node('optimise',optimise)
 
 graph.add_edge(START,'generate')
 graph.add_edge('generate','evaluate')
-graph.add_conditional_edge('evaluate','decision',{'approved':END,"not approved":'optimise'})
+graph.add_conditional_edge('evaluate',decision,{'approved':END,"not approved":'optimise'})
 graph.add_edge('optimise','evaluate')
 
 
 worfklow   = graph.compile()
-initial_state = {'title':"Machine Learning"}
+initial_state = {
+    'topic': "Machine Learning",
+    'post': "",
+    'iteration': 0,
+    'max_iteration': 5
+}
+
 print(worfklow.invoke(initial_state))
